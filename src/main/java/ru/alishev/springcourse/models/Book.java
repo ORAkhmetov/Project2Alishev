@@ -2,12 +2,15 @@ package ru.alishev.springcourse.models;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public class Book {
     private int id;
     @NotEmpty
+    @Size(min=2, max=100, message = "Название книги должно быть от 2 до 100 символов длиной")
     private String title;
     @NotEmpty
+    @Size(min=2, max=100, message = "Имя автора должно быть от 2 до 100 символов длиной")
     private String author;
     @NotEmpty
     @Min(value = 868, message = "Год издания не должен быть меньше 868")

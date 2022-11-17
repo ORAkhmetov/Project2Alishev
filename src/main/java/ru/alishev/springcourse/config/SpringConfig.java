@@ -19,9 +19,6 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import javax.sql.DataSource;
 import java.util.Objects;
 
-/**
- * @author Neil Alishev
- */
 @Configuration
 @ComponentScan("ru.alishev.springcourse")
 @EnableWebMvc

@@ -44,8 +44,9 @@ public class BookDAO {
 
     //Метод проверки, кто взял книгу
     public Optional<Person> getBookOwner(int id) {
-        return jdbcTemplate.query("SELECT Person.* FROM Person JOIN Book ON Person.person_id = Book.person_id WHERE Book.book_id=?",
-                new Object[]{id}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+        return jdbcTemplate.query("SELECT Person.* FROM Book JOIN Person ON Person.person_id = Book.person_id " +
+                        "WHERE Book.book_id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
+                .stream().findAny();
     }
     //Метод обозначения книги свободной
     public void release (int id) {

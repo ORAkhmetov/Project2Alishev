@@ -2,23 +2,19 @@ package ru.alishev.springcourse.models;
 
 import javax.validation.constraints.*;
 
-/**
- * @author Neil Alishev
- */
 public class Person {
     private int id;
 
     @NotEmpty(message = "Имя не должно быть пустым")
+    @Size(min=2, max=100, message = "Имя должно быть от 2 до 100 символов длиной")
     private String fullName;
     @NotEmpty
     @Min(value = 1900, message = "Год рождения не должен быть меньше 1900")
-    //@Pattern(regexp = "[А-Я]\\w+ [А-Я]\\w+ [А-Я]\\w+", message = "Your address should be in this format: Country, City, Postal Code (6 digit)")
     private int yearOfBirth;
 
     public Person() {}
 
-    public Person(int id, String fullName, int yearOfBirth) {
-        this.id = id;
+    public Person(String fullName, int yearOfBirth) {
         this.fullName = fullName;
         this.yearOfBirth = yearOfBirth;
     }

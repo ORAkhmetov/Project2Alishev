@@ -9,10 +9,9 @@ import ru.alishev.springcourse.models.Person;
 
 
 import java.util.List;
+import java.util.Optional;
 
-/**
- * @author Neil Alishev
- */
+
 @Component
 public class PersonDAO {
 
@@ -46,9 +45,16 @@ public class PersonDAO {
         jdbcTemplate.update("DELETE FROM person WHERE id=?", id);
     }
 
+    //Для валидации уникальности ФИО
+    public Optional<Person> getPersonByFullName(String fullName) {
+        return jdbcTemplate.query("SELECT * FROM Person WHERE full_name=?", new Object[]{fullName},
+                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+    }
+
     //Какие книги взяты человеком
     public List<Book> getBooksByPersonId(int id) {
-        return jdbcTemplate.query("SELECT * FROM book WHERE person_id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class));
+        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id=?", new Object[]{id},
+                new BeanPropertyRowMapper<>(Book.class));
     }
 
 }

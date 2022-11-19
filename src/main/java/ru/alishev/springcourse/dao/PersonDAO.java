@@ -27,22 +27,22 @@ public class PersonDAO {
     }
 
     public Person show(int id) {
-        return jdbcTemplate.query("SELECT * FROM person WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
+        return jdbcTemplate.query("SELECT * FROM person WHERE person_id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny().orElse(null);
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO person(fullName, ageOfBirth) VALUES(?, ?)", person.getFullName(),
+        jdbcTemplate.update("INSERT INTO person(full_name, year_of_birth) VALUES(?, ?)", person.getFullName(),
                 person.getYearOfBirth());
     }
 
     public void update(int id, Person updatedPerson) {
-        jdbcTemplate.update("UPDATE person SET fullName=?, ageOfBirth=? WHERE id=?", updatedPerson.getFullName(),
+        jdbcTemplate.update("UPDATE person SET full_Name=?, year_Of_Birth=? WHERE person_id=?", updatedPerson.getFullName(),
                 updatedPerson.getYearOfBirth(), id);
     }
 
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM person WHERE id=?", id);
+        jdbcTemplate.update("DELETE FROM person WHERE person_id=?", id);
     }
 
     //Для валидации уникальности ФИО

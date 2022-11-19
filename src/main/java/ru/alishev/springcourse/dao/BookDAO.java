@@ -24,7 +24,7 @@ public class BookDAO {
     }
     //Метод отображения конкретной книги
     public Book show(int id) {
-        return jdbcTemplate.query("SELECT * FROM Book WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class))
+        return jdbcTemplate.query("SELECT * FROM Book WHERE book_id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class))
                 .stream().findAny().orElse(null);
     }
     //Метод сохранения новой книги
@@ -34,12 +34,12 @@ public class BookDAO {
     }
     //Метод редактирования книги
     public void update(int id, Book updatedBook) {
-        jdbcTemplate.update("UPDATE Book SET title=?, author=?, year=? WHERE id=?", updatedBook.getTitle(),
+        jdbcTemplate.update("UPDATE Book SET title=?, author=?, year=? WHERE book_id=?", updatedBook.getTitle(),
                 updatedBook.getAuthor(), updatedBook.getYear(), id);
     }
     //Метод удаления книги
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM Book WHERE id=?", id);
+        jdbcTemplate.update("DELETE FROM Book WHERE book_id=?", id);
     }
 
     //Метод проверки, кто взял книгу

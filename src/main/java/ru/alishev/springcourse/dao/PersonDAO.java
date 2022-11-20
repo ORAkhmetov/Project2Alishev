@@ -26,18 +26,18 @@ public class PersonDAO {
         return jdbcTemplate.query("SELECT * FROM person", new BeanPropertyRowMapper<>(Person.class));
     }
 
-    public Person show(int id) {
-        return jdbcTemplate.query("SELECT * FROM person WHERE person_id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
+    public Person show(int person_id) {
+        return jdbcTemplate.query("SELECT * FROM person WHERE person_id=?", new Object[]{person_id}, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny().orElse(null);
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO person(full_name, year_of_birth) VALUES(?, ?)", person.getFullName(),
+        jdbcTemplate.update("INSERT INTO person(fullname, yearofbirth) VALUES(?, ?)", person.getFullName(),
                 person.getYearOfBirth());
     }
 
     public void update(int id, Person updatedPerson) {
-        jdbcTemplate.update("UPDATE person SET full_Name=?, year_Of_Birth=? WHERE person_id=?", updatedPerson.getFullName(),
+        jdbcTemplate.update("UPDATE person SET fullname=?, yearofbirth=? WHERE person_id=?", updatedPerson.getFullName(),
                 updatedPerson.getYearOfBirth(), id);
     }
 
@@ -47,7 +47,7 @@ public class PersonDAO {
 
     //Для валидации уникальности ФИО
     public Optional<Person> getPersonByFullName(String fullName) {
-        return jdbcTemplate.query("SELECT * FROM Person WHERE full_name=?", new Object[]{fullName},
+        return jdbcTemplate.query("SELECT * FROM Person WHERE fullname=?", new Object[]{fullName},
                 new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
 

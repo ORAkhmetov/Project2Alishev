@@ -1,14 +1,15 @@
 package ru.alishev.springcourse.models;
 
-import javax.validation.constraints.*;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 public class Person {
-    private int id;
+    private int person_id;
 
     @NotEmpty(message = "Имя не должно быть пустым")
     @Size(min=2, max=100, message = "Имя должно быть от 2 до 100 символов длиной")
     private String fullName;
-    @NotEmpty
     @Min(value = 1900, message = "Год рождения не должен быть меньше 1900")
     private int yearOfBirth;
 
@@ -19,12 +20,12 @@ public class Person {
         this.yearOfBirth = yearOfBirth;
     }
 
-    public int getId() {
-        return id;
+    public int getPerson_id() {
+        return person_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPerson_id(int person_id) {
+        this.person_id = person_id;
     }
 
     public String getFullName() {

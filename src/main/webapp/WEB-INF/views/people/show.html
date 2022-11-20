@@ -23,11 +23,11 @@
     <hr/>
 </div>
 
-<form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+<form th:method="GET" th:action="@{/people/{person_id}/edit(person_id=${person.getPerson_id()})}">
     <input type="submit" value="Редактировать"/>
 </form>
 
-<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+<form th:method="DELETE" th:action="@{/people/{person_id}(person_id=${person.getPerson_id()})}">
     <input type="submit" value="Удалить"/>
 </form>
 

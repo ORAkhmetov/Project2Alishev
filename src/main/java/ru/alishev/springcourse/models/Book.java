@@ -5,19 +5,17 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 public class Book {
-    private int id;
-    @NotEmpty
+    private int book_id;
+    @NotEmpty(message = "Название не должно быть пустым")
     @Size(min=2, max=100, message = "Название книги должно быть от 2 до 100 символов длиной")
     private String title;
-    @NotEmpty
+    @NotEmpty(message = "Автор не должен быть пустым")
     @Size(min=2, max=100, message = "Имя автора должно быть от 2 до 100 символов длиной")
     private String author;
-    @NotEmpty
     @Min(value = 868, message = "Год издания не должен быть меньше 868")
     private int year;
 
-    public Book(int id, String title, String author, int year) {
-        this.id = id;
+    public Book(String title, String author, int year) {
         this.title = title;
         this.author = author;
         this.year = year;
@@ -26,12 +24,12 @@ public class Book {
     public Book() {
     }
 
-    public int getId() {
-        return id;
+    public int getBook_id() {
+        return book_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setBook_id(int book_id) {
+        this.book_id = book_id;
     }
 
     public String getTitle() {

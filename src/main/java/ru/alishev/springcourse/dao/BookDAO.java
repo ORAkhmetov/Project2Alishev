@@ -23,8 +23,8 @@ public class BookDAO {
         return jdbcTemplate.query("SELECT * FROM Book", new BeanPropertyRowMapper<>(Book.class));
     }
     //Метод отображения конкретной книги
-    public Book show(int id) {
-        return jdbcTemplate.query("SELECT * FROM Book WHERE book_id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class))
+    public Book show(int book_id) {
+        return jdbcTemplate.query("SELECT * FROM Book WHERE book_id=?", new Object[]{book_id}, new BeanPropertyRowMapper<>(Book.class))
                 .stream().findAny().orElse(null);
     }
     //Метод сохранения новой книги
@@ -43,9 +43,9 @@ public class BookDAO {
     }
 
     //Метод проверки, кто взял книгу
-    public Optional<Person> getBookOwner(int id) {
+    public Optional<Person> getBookOwner(int book_id) {
         return jdbcTemplate.query("SELECT Person.* FROM Book JOIN Person ON Person.person_id = Book.person_id " +
-                        "WHERE Book.book_id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
+                        "WHERE Book.book_id=?", new Object[]{book_id}, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny();
     }
     //Метод обозначения книги свободной
@@ -54,7 +54,7 @@ public class BookDAO {
     }
     //Метод назначения читателя для книги
     public void assign (int id, Person selectedPerson) {
-        jdbcTemplate.update("UPDATE Book SET person_id=? WHERE book_id=?", selectedPerson.getId(), id);
+        jdbcTemplate.update("UPDATE Book SET person_id=? WHERE book_id=?", selectedPerson.getPerson_id(), id);
     }
 
 }

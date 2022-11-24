@@ -1,17 +1,34 @@
 package ru.alishev.springcourse.models;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.List;
+
+@Entity
+@Table(name = "Person")
 public class Person {
-    private int person_id;
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @NotEmpty(message = "Имя не должно быть пустым")
     @Size(min=2, max=100, message = "Имя должно быть от 2 до 100 символов длиной")
+    @Column(name = "full_name")
     private String fullName;
     @Min(value = 1900, message = "Год рождения не должен быть меньше 1900")
+    @Column(name = "year_of_birth")
     private int yearOfBirth;
+
+    @OneToMany(mappedBy = "reader")
+    private List<Book> books;
 
     public Person() {}
 
@@ -20,12 +37,12 @@ public class Person {
         this.yearOfBirth = yearOfBirth;
     }
 
-    public int getPerson_id() {
-        return person_id;
+    public int getId() {
+        return id;
     }
 
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFullName() {
@@ -42,5 +59,22 @@ public class Person {
 
     public void setYearOfBirth(int yearOfBirth) {
         this.yearOfBirth = yearOfBirth;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", yearOfBirth=" + yearOfBirth +
+                '}';
     }
 }

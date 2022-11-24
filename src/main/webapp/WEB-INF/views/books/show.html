@@ -12,7 +12,7 @@
 <div th:if="${owner}">
     <span>Книга сейчас у: </span> <span th:text="${owner.getFullName()}">Person Name</span>
 
-    <form th:method="PATCH" th:action="@{/books/{book_id}/release(book_id=${book.getBook_id()})}">
+    <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getId()})}">
         <input type="submit" value="Освободить книгу"/>
     </form>
 </div>
@@ -20,10 +20,10 @@
 <!--Книга свободна, назначить читателя -->
 <div th:if="${people}">
     <span>Эта книга свободна. Кому назначить ее?</span>
-    <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getBook_id()})}">
+    <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">
         <label for="person">Выберете человека: </label>
-        <select th:object="${person}" th:field="*{person_id}" id="person">
-            <option th:each="person : ${people}" th:value="${person.getPerson_id()}" th:text="${person.getFullName()}">
+        <select th:object="${person}" th:field="*{id}" id="person">
+            <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}">
             </option>
         </select>
         <input type="submit" value="Назначить книгу"/>
@@ -32,11 +32,11 @@
 
 <hr/>
 
-<form th:method="GET" th:action="@{/books/{book_id}/edit(book_id=${book.getBook_id()})}">
+<form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getId()})}">
     <input type="submit" value="Редактировать"/>
 </form>
 
-<form th:method="DELETE" th:action="@{/books/{book_id}(book_id=${book.getBook_id()})}">
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
     <input type="submit" value="Удалить"/>
 </form>
 

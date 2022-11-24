@@ -1,19 +1,33 @@
 package ru.alishev.springcourse.models;
 
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-
+@Entity
+@Table(name = "Book")
 public class Book {
-    private int book_id;
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     @NotEmpty(message = "Название не должно быть пустым")
     @Size(min=2, max=100, message = "Название книги должно быть от 2 до 100 символов длиной")
+    @Column(name = "title")
     private String title;
     @NotEmpty(message = "Автор не должен быть пустым")
     @Size(min=2, max=100, message = "Имя автора должно быть от 2 до 100 символов длиной")
+    @Column(name = "author")
     private String author;
     @Min(value = 868, message = "Год издания не должен быть меньше 868")
+    @Column(name = "year")
     private int year;
+
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    //name - имя столбца таблице Book, хранящий id читателя, referencedColomnName - имя столбца в таблице Person, хранящий id человека
+    private Person reader;
 
     public Book(String title, String author, int year) {
         this.title = title;
@@ -24,12 +38,12 @@ public class Book {
     public Book() {
     }
 
-    public int getBook_id() {
-        return book_id;
+    public int getId() {
+        return id;
     }
 
-    public void setBook_id(int book_id) {
-        this.book_id = book_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -54,5 +68,22 @@ public class Book {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public Person getReader() {
+        return reader;
+    }
+
+    public void setReader(Person reader) {
+        this.reader = reader;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", year=" + year +
+                '}';
     }
 }

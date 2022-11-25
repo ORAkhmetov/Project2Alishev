@@ -1,5 +1,5 @@
 hibernate.driver_class=
-hibernate.connection.url=j
+hibernate.connection.url=
 hibernate.connection.username=
 hibernate.connection.password=
 

@@ -1,5 +1,6 @@
 package ru.alishev.springcourse.controllers;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import ru.alishev.springcourse.services.BooksService;
 import ru.alishev.springcourse.services.PeopleService;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -26,8 +28,14 @@ public class BooksController {
     }
 
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("books", booksService.findAll());
+    public String index(Model model,
+                        @RequestParam(value = "page", required = false) Integer page,
+                        @RequestParam(value = "books_per_page", required = false) Integer booksPerPage,
+                        @RequestParam( value = "sort_by_year", required = false) boolean sortByYear) {
+        if (page == null || booksPerPage == null)
+            model.addAttribute("books", booksService.findAll(sortByYear));
+        else
+            model.addAttribute("books", booksService.findWithPagination(page, booksPerPage, sortByYear));
         return "books/index";
     }
     @GetMapping("/{id}")
@@ -85,5 +93,21 @@ public class BooksController {
         booksService.assign(id, selectedPerson);
         return "redirect:/books/" + id;
     }
+
+    @GetMapping("/search")
+    public String searchPage() {
+        return "books/search";
+    }
+    @PostMapping("/search")
+    public String search(Model model, @RequestParam(value = "searchQuery", required = false) String searchQuery) {
+        model.addAttribute("foundedBooks", booksService.searchByTitle(searchQuery));
+
+
+        System.out.println(searchQuery);
+
+        return "books/search";
+    }
+
+
 
 }

@@ -8,6 +8,7 @@ import ru.alishev.springcourse.models.Person;
 import ru.alishev.springcourse.repositories.PeopleRepository;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,6 +59,12 @@ public class PeopleService {
 
         if (person.isPresent()) {
             Hibernate.initialize(person.get().getBooks());
+            person.get().getBooks().forEach(book -> {
+                long diffInMillis = Math.abs(book.getDateOfTaken().getTime() - new Date().getTime());
+                if (diffInMillis > 864000000)
+                    book.setExpired(true);
+            }
+            );
             return person.get().getBooks();
         } else {
             return Collections.emptyList();

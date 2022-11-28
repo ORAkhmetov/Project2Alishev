@@ -42,10 +42,10 @@ public class BooksController {
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
         model.addAttribute("book", booksService.findOne(id));
 
-        Optional<Person> bookOwner = booksService.getBookReader(id);
+        Person bookOwner = booksService.getBookReader(id);
 
-        if (bookOwner.isPresent())
-            model.addAttribute("owner", bookOwner.get());
+        if (bookOwner != null)
+            model.addAttribute("owner", bookOwner);
         else
             model.addAttribute("people", peopleService.findAll());
 

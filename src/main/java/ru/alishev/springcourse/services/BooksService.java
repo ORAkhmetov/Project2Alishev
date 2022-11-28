@@ -1,6 +1,6 @@
 package ru.alishev.springcourse.services;
 
-import org.springframework.data.domain.Page;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -10,6 +10,7 @@ import ru.alishev.springcourse.models.Person;
 import ru.alishev.springcourse.repositories.BooksRepository;
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,20 +64,28 @@ public class BooksService {
         booksRepository.deleteById(id);
     }
 
-    public Optional<Person> getBookReader(int id) {
-        Optional<Book> book = booksRepository.findById(id);
-        return Optional.ofNullable(book.get().getReader());
+    public Person getBookReader(int id) {
+        return booksRepository.findById(id).map(Book::getReader).orElse(null);
     }
 
     @Transactional
     public void assign(int id, Person selectedPerson) {
-        Optional<Book> book = booksRepository.findById(id);
-        book.get().setReader(selectedPerson);
+        booksRepository.findById(id).ifPresent(
+                book -> {
+                    book.setReader(selectedPerson);
+                    book.setDateOfTaken(new Date());
+                }
+        );
     }
 
     @Transactional
-    public void release (int id) {
-        booksRepository.findById(id).get().setReader(null);
+    public void release(int id) {
+        booksRepository.findById(id).ifPresent(
+                book -> {
+                    book.setReader(null);
+                    book.setDateOfTaken(null);
+                }
+        );
     }
     public List<Book> searchByTitle(String query) {
         return booksRepository.findByTitleStartingWith(query);

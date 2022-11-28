@@ -1,9 +1,14 @@
 package ru.alishev.springcourse.models;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
+
 @Entity
 @Table(name = "Book")
 public class Book {
@@ -28,6 +33,12 @@ public class Book {
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     //name - имя столбца таблице Book, хранящий id читателя, referencedColomnName - имя столбца в таблице Person, хранящий id человека
     private Person reader;
+
+    @Column(name = "date_of_taken")
+    private Date dateOfTaken;
+
+    @Transient//Hibernate не обращает внимание на это поле
+    private boolean expired;
 
     public Book(String title, String author, int year) {
         this.title = title;
@@ -76,6 +87,22 @@ public class Book {
 
     public void setReader(Person reader) {
         this.reader = reader;
+    }
+
+    public Date getDateOfTaken() {
+        return dateOfTaken;
+    }
+
+    public void setDateOfTaken(Date dateOfTaken) {
+        this.dateOfTaken = dateOfTaken;
+    }
+
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
     }
 
     @Override
